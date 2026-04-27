@@ -1,35 +1,38 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const handleLoginFunc = async (data) => {
-  // console.log(data);
-  const { data: res, error } = await authClient.signIn.email({
-    email: data.email,
-    password: data.password,
-    rememberMe: true,
-    callbackURL: "/",
-  });
-  if (error) {
-    toast.error(error.message);
-  }
-
-  if (res) {
-    toast.success("Signup successful");
-  }
-};
-
 const LogInForm = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log(errors);
+  // console.log(errors);
+
+  const handleLoginFunc = async (data) => {
+    // console.log(data);
+    const { data: res, error } = await authClient.signIn.email({
+      email: data.email,
+      password: data.password,
+      rememberMe: true,
+      callbackURL: "/",
+    });
+    if (error) {
+      toast.error(error.message);
+    }
+
+    if (res) {
+      toast.success("Signup successful");
+      router.push("/");
+    }
+  };
   return (
     <div>
       <form className="space-y-4" onSubmit={handleSubmit(handleLoginFunc)}>
