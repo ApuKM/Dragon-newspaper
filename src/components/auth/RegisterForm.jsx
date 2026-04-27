@@ -1,8 +1,10 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const handleLoginFunc = async (data) => {
   // console.log(data);
@@ -26,6 +28,7 @@ const handleLoginFunc = async (data) => {
 };
 
 const RegisterForm = () => {
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -88,6 +91,12 @@ const RegisterForm = () => {
               required: "Password field is required",
             })}
           />
+          <span
+            className="absolute right-2 top-1/2 translate-y-[-50%] cursor-pointer"
+            onClick={() => setIsShowPassword(!isShowPassword)}
+          >
+            {isShowPassword ? <FaEye /> : <FaEyeSlash />}
+          </span>
           {errors.password && (
             <p className="text-red-500 text-xs">{errors.password.message}</p>
           )}
