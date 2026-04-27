@@ -1,9 +1,28 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
-const handleLoginFunc = (data) => {
-  console.log(data);
+const handleLoginFunc = async (data) => {
+  // console.log(data);
+  const { name, photo, email, password } = data;
+  const { data: res, error } = await authClient.signUp.email({
+    name,
+    email,
+    password,
+    image: photo,
+    callbackURL: "/",
+  });
+
+  // console.log(res, error);
+  if (error) {
+    toast.error(error.message);
+  }
+
+  if (res) {
+    toast.success("Signup successful");
+  }
 };
 
 const RegisterForm = () => {
@@ -12,7 +31,7 @@ const RegisterForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log(errors);
+  // console.log(errors);
   return (
     <div>
       <form className="space-y-4" onSubmit={handleSubmit(handleLoginFunc)}>
@@ -26,7 +45,9 @@ const RegisterForm = () => {
               required: "Name field is required",
             })}
           />
-          {errors.name && <p className="text-red-500 text-xs">{errors.name.message}</p>}
+          {errors.name && (
+            <p className="text-red-500 text-xs">{errors.name.message}</p>
+          )}
         </fieldset>
 
         <fieldset className="fieldset">

@@ -1,9 +1,23 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { useForm } from "react-hook-form";
 
-const handleLoginFunc = (data) => {
-  console.log(data);
+const handleLoginFunc = async (data) => {
+  // console.log(data);
+  const { data: res, error } = await authClient.signIn.email({
+    email: data.email,
+    password: data.password,
+    rememberMe: true,
+    callbackURL: "/",
+  });
+  if (error) {
+    toast.error(error.message);
+  }
+
+  if (res) {
+    toast.success("Signup successful");
+  }
 };
 
 const LogInForm = () => {
@@ -33,7 +47,7 @@ const LogInForm = () => {
         <fieldset className="fieldset relative">
           <legend className="fieldset-legend">Password</legend>
           <input
-            type= "password"
+            type="password"
             className="input"
             placeholder="Type here password"
             {...register("password", {

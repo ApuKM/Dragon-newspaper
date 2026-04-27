@@ -1,16 +1,17 @@
 import { Montserrat, Poppins } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: [ "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const monserrat = Montserrat({
   variable: "--font-monserrat",
   subsets: ["latin"],
-  weight: [ "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata = {
@@ -20,12 +21,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      data-theme="light"
-      className={` h-full antialiased`}
-    >
-      <body className={`min-h-full flex flex-col ${poppins.className}`}>{children}</body>
+    <html lang="en" data-theme="light" className={` h-full antialiased`}>
+      <body className={`min-h-full flex flex-col ${poppins.className}`}>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }
