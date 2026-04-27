@@ -34,8 +34,9 @@ const Navbar = () => {
           <Image
             src={user.image || userAvatar}
             alt="User avatar"
-            width={30}
-            height={30}
+            width={40}
+            height={40}
+            className="w-10 h-10 object-center object-contain rounded-full"
           />
           <button
             className="btn bg-pink-800 text-white"

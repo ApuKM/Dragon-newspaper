@@ -1,12 +1,24 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const handleLoginFunc = async (data) => {
+
+
+const RegisterForm = () => {
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  // console.log(errors);
+  const handleLoginFunc = async (data) => {
   // console.log(data);
   const { name, photo, email, password } = data;
   const { data: res, error } = await authClient.signUp.email({
@@ -24,17 +36,9 @@ const handleLoginFunc = async (data) => {
 
   if (res) {
     toast.success("Signup successful");
+    router.push("/")
   }
 };
-
-const RegisterForm = () => {
-  const [isShowPassword, setIsShowPassword] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  // console.log(errors);
   return (
     <div>
       <form className="space-y-4" onSubmit={handleSubmit(handleLoginFunc)}>
@@ -84,19 +88,20 @@ const RegisterForm = () => {
         <fieldset className="fieldset relative">
           <legend className="fieldset-legend">Password</legend>
           <input
-            type="password"
-            className="input"
+            type={isShowPassword ? "text" : "password"}
+            className="input "
             placeholder="Type here password"
             {...register("password", {
               required: "Password field is required",
             })}
           />
-          <span
-            className="absolute right-2 top-1/2 translate-y-[-50%] cursor-pointer"
+             <span
+            className="absolute right-10 top-1/2 translate-y-[-50%] cursor-pointer"
             onClick={() => setIsShowPassword(!isShowPassword)}
           >
             {isShowPassword ? <FaEye /> : <FaEyeSlash />}
           </span>
+         
           {errors.password && (
             <p className="text-red-500 text-xs">{errors.password.message}</p>
           )}
