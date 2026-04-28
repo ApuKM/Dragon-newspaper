@@ -4,6 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const LogInForm = () => {
@@ -29,7 +30,7 @@ const LogInForm = () => {
     }
 
     if (res) {
-      toast.success("Signup successful");
+      toast.success("Login successful");
       router.push("/");
     }
   };
@@ -53,7 +54,7 @@ const LogInForm = () => {
         <fieldset className="fieldset relative">
           <legend className="fieldset-legend">Password</legend>
           <input
-            type="password"
+            type={isShowPassword ? "text" : "password"}
             className="input relative"
             placeholder="Type here password"
             {...register("password", {
